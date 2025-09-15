@@ -23,3 +23,13 @@ export function rotate2(arr: number[], k: number): number[] {
   const part2 = arr.slice(0, length - step);
   return part1.concat(part2);
 }
+
+// const array = Array.from({ length: 10000 }).map((_, index) => index);
+// const kNum = 5000;
+// console.time('rotate');
+// rotate(array, kNum);
+// console.timeEnd('rotate');
+//
+// console.time('rotate2');
+// rotate2(array, kNum);
+// console.timeEnd('rotate2');
