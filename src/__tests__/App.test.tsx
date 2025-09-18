@@ -1,48 +1,50 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
 
 describe('App Component', () => {
-  it('renders without crashing', () => {
+  it('renders without crashing', async () => {
     render(<App />);
-    expect(screen.getByText('React TypeScript Template')).toBeInTheDocument();
+    // 等待懒加载组件加载完成
+    await waitFor(() => {
+      expect(screen.getByText('Algorithm Page')).toBeInTheDocument();
+    });
   });
 
-  it('increments count when button is clicked', () => {
+  it('displays the header with navigation', async () => {
     render(<App />);
-    const button = screen.getByRole('button', { name: /点击计数: 0/i });
 
-    fireEvent.click(button);
+    // 检查头部导航 - 检查 header 区域内的特定元素
+    const header = screen.getByRole('banner');
+    expect(header).toBeInTheDocument();
 
-    expect(screen.getByText(/点击计数: 1/)).toBeInTheDocument();
+    // 检查导航区域存在
+    const nav = screen.getByRole('navigation');
+    expect(nav).toBeInTheDocument();
   });
 
-  it('displays logo images', () => {
+  it('displays the home page content', async () => {
     render(<App />);
 
-    const viteLogo = screen.getByAltText('Vite logo');
-    const reactLogo = screen.getByAltText('React logo');
+    // 等待页面内容加载
+    await waitFor(() => {
+      expect(screen.getByText('Algorithm Page')).toBeInTheDocument();
+    });
 
-    expect(viteLogo).toBeInTheDocument();
-    expect(reactLogo).toBeInTheDocument();
-  });
-
-  it('displays features correctly', () => {
-    render(<App />);
-
+    // 检查首页内容
     expect(
-      screen.getByText('⚡ Vite + React 18 + TypeScript')
+      screen.getByText('这是使用 React Router 创建的首页。')
     ).toBeInTheDocument();
-    expect(screen.getByText('🎨 Tailwind CSS')).toBeInTheDocument();
-    expect(screen.getByText('🧪 Jest + Testing Library')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: '开始探索' })
+    ).toBeInTheDocument();
   });
 
-  it('displays call-to-action buttons', () => {
+  it('renders the page layout correctly', () => {
     render(<App />);
 
-    expect(
-      screen.getByRole('button', { name: '查看文档' })
-    ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'GitHub' })).toBeInTheDocument();
+    // 检查布局结构
+    expect(screen.getByRole('banner')).toBeInTheDocument(); // header
+    expect(screen.getByRole('main')).toBeInTheDocument(); // main content
   });
 });
