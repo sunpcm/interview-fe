@@ -1,5 +1,4 @@
 export class LRU {
-  length;
   data = new Map();
   constructor(length) {
     this.length = length;
