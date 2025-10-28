@@ -1,4 +1,7 @@
-import { groupAnagrams, groupAnagrams_Optimal } from './groupAnagrams.ts';
+import {
+  groupAnagrams,
+  groupAnagrams_Optimal,
+} from '../../algorithm/groupAnagrams.ts';
 
 const funcArr = [
   { name: 'groupAnagrams', func: groupAnagrams },
