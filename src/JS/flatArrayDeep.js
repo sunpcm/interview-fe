@@ -10,3 +10,22 @@ export const flatArrayDeep = arr => {
   });
   return res;
 };
+
+export const faltArrByReduce = arr =>
+  arr.reduce((pre, cur) => {
+    return pre.concat(Array.isArray(cur) ? faltArrByReduce(cur) : cur);
+  }, []);
+
+// export const flatArrByString = (arr) => arr.toString().split(',')
+
+export const flatArr = arr => {
+  let result = [];
+  arr.forEach(n => {
+    if (Array.isArray(n)) {
+      result = result.concat(flatArr(n));
+    } else {
+      result = result.concat(n);
+    }
+  });
+  return result;
+};

@@ -33,9 +33,3 @@ export const moveZero2 = (arr: number[]): number[] => {
 
   return arr;
 };
-
-export const moveZero3 = (arr: number[]): number[] => {
-  const len = arr.length;
-  const newArr = arr.filter(n => n !== 0);
-  return newArr.concat(new Array(len - newArr.length).fill(0));
-};

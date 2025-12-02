@@ -12,7 +12,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest",
+    "test": "jest --no-watchman",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",

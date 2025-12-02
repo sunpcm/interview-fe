@@ -1,10 +1,9 @@
-import { moveZero1, moveZero2, moveZero3 } from '@/algorithm/moveZero';
+import { moveZero1, moveZero2 } from '@/algorithm/moveZero';
 
 // 将需要测试的函数整理到一个数组中，方便批量测试
 const implementations = [
   { name: 'moveZero1', fn: moveZero1 },
   { name: 'moveZero2', fn: moveZero2 },
-  { name: 'moveZero3', fn: moveZero3 },
 ];
 
 describe('Move Zeros to End', () => {
