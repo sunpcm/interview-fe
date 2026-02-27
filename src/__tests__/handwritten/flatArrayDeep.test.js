@@ -1,4 +1,4 @@
-import { flatArrayDeep } from './flatArrayDeep.js';
+import { flatArrayDeep } from '@/handwritten/flatArrayDeep';
 
 describe('数组深度扁平化', () => {
   it('空数组', () => {

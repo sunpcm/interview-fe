@@ -1,4 +1,4 @@
-import { curry } from './curry';
+import { curry } from '@/handwritten/curry';
 
 describe('curry', () => {
   it('curry add', () => {

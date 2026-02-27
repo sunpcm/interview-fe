@@ -21,11 +21,14 @@ const algorithmFiles = import.meta.glob('../algorithm/*.{ts,js}', {
   eager: true,
 }) as Record<string, string>;
 
-const jsFiles = import.meta.glob(['../JS/*.{ts,js}', '!../JS/*.test.{ts,js}'], {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as Record<string, string>;
+const jsFiles = import.meta.glob(
+  ['../handwritten/*.{ts,js}', '!../handwritten/*.test.{ts,js}'],
+  {
+    query: '?raw',
+    import: 'default',
+    eager: true,
+  }
+) as Record<string, string>;
 
 function getSource(files: Record<string, string>, filename: string): string {
   const key = Object.keys(files).find(k => k.endsWith('/' + filename));
@@ -250,7 +253,7 @@ console.log('计数法:', groupAnagrams_Optimal(strs));`,
     difficulty: 'Medium',
     description:
       '中心扩展法：遍历每个字符作为中心，分别处理奇数和偶数长度的回文。',
-    sourceCode: src('TDlongestPalindrome.ts'),
+    sourceCode: src('longestPalindrome.ts'),
     testCode: `console.log('"babad":', TDlongestPalindrome('babad'));
 console.log('"cbbd":', TDlongestPalindrome('cbbd'));
 console.log('"a":', TDlongestPalindrome('a'));
@@ -267,7 +270,7 @@ console.log('"racecar":', TDlongestPalindrome('racecar'));`,
     difficulty: 'Easy',
     description:
       '找到字符串中连续重复次数最多的字符。两种实现：嵌套循环和双指针。',
-    sourceCode: src('mostChart.ts'),
+    sourceCode: src('mostChar.ts'),
     testCode: `console.log('"aabbcccdddd":', mostChart1('aabbcccdddd'));
 console.log('"aabbcccdddd":', mostStr2('aabbcccdddd'));`,
     timeComplexity: 'O(n)',
@@ -466,7 +469,7 @@ console.log('循环引用:', cloned.b.self === cloned);`,
     tags: ['递归', 'DFS', 'BFS', '深拷贝'],
     difficulty: 'Hard',
     description: '深拷贝的第二版练习，包含简化版 DFS 和完整版 BFS 实现。',
-    sourceCode: jsSrc('deepClone2.js'),
+    sourceCode: jsSrc('deepClone-v2.js'),
     testCode: `const obj = { a: 1, b: { c: 2 }, d: [3, 4] };
 const cloned = deepCloneDfs(obj);
 console.log('克隆结果:', cloned);
@@ -483,7 +486,7 @@ console.log('是否深拷贝:', obj.b !== cloned.b);`,
     difficulty: 'Medium',
     description:
       '防抖：延迟执行，重复触发会重置计时器。节流：固定间隔执行，忽略中间触发。',
-    sourceCode: jsSrc('debounce&throttle.js'),
+    sourceCode: jsSrc('debounce-throttle.js'),
     testCode: `// 防抖示例
 const debouncedFn = _debounce((x) => console.log('debounced:', x), 0.5);
 debouncedFn('a');
@@ -582,7 +585,7 @@ console.log('get d:', cache.get('d')); // 4`,
     difficulty: 'Medium',
     description:
       '手写 new：创建对象 → 绑定原型 → 执行构造函数 → 判断返回值。理解 new 的本质。',
-    sourceCode: jsSrc('new.js'),
+    sourceCode: jsSrc('newOperator.js'),
     testCode: `function Person(name, age) {
   this.name = name;
   this.age = age;
@@ -606,7 +609,7 @@ console.log('instanceof:', p instanceof Person);`,
     difficulty: 'Easy',
     description:
       '沿原型链查找，判断实例的原型链上是否存在构造函数的 prototype。',
-    sourceCode: jsSrc('newInstance.js'),
+    sourceCode: jsSrc('instanceof.js'),
     testCode: `class Animal {}
 class Dog extends Animal {}
 const dog = new Dog();

@@ -1,24 +1,38 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+// Mock algorithms data module (uses import.meta.glob which Jest cannot handle)
+jest.mock('@/data/algorithms', () => ({
+  algorithms: [
+    {
+      id: 'test',
+      name: 'Test',
+      category: 'Test',
+      group: 'algorithm',
+      difficulty: 'Easy',
+      tags: [],
+    },
+  ],
+  getCategories: () => ['Test'],
+  getAllTags: () => [],
+}));
+
 import App from '../App';
 
 describe('App Component', () => {
   it('renders without crashing', async () => {
     render(<App />);
-    // 等待懒加载组件加载完成
     await waitFor(() => {
-      expect(screen.getByText('Algorithm Page')).toBeInTheDocument();
+      expect(screen.getByText('算法与 JS 手写题库')).toBeInTheDocument();
     });
   });
 
   it('displays the header with navigation', async () => {
     render(<App />);
 
-    // 检查头部导航 - 检查 header 区域内的特定元素
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
 
-    // 检查导航区域存在
     const nav = screen.getByRole('navigation');
     expect(nav).toBeInTheDocument();
   });
@@ -26,25 +40,19 @@ describe('App Component', () => {
   it('displays the home page content', async () => {
     render(<App />);
 
-    // 等待页面内容加载
     await waitFor(() => {
-      expect(screen.getByText('Algorithm Page')).toBeInTheDocument();
+      expect(screen.getByText('算法与 JS 手写题库')).toBeInTheDocument();
     });
 
-    // 检查首页内容
     expect(
-      screen.getByText('这是使用 React Router 创建的首页。')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: '开始探索' })
+      screen.getByText('在线浏览、编辑、运行你的算法实现，随时复习')
     ).toBeInTheDocument();
   });
 
   it('renders the page layout correctly', () => {
     render(<App />);
 
-    // 检查布局结构
-    expect(screen.getByRole('banner')).toBeInTheDocument(); // header
-    expect(screen.getByRole('main')).toBeInTheDocument(); // main content
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 });

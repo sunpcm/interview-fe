@@ -1,4 +1,4 @@
-import { newInstance } from './newInstance';
+import { newInstance } from '@/handwritten/instanceof';
 
 describe('自定义 instanceof', () => {
   it('null undefined', () => {

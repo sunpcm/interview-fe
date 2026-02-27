@@ -6,7 +6,7 @@
  */
 export function deepCloneDfs(obj, hash = new Map()) {
   // 1. 原始类型、null 和函数直接返回
-  // 函数没有被“克隆”，而是返回其引用，这是标准做法
+  // 函数没有被"克隆"，而是返回其引用，这是标准做法
   if (obj === null || typeof obj !== 'object') {
     return obj;
   }
@@ -58,42 +58,12 @@ export function deepCloneDfs(obj, hash = new Map()) {
   return newObj;
 }
 
-// --- 测试用例 ---
-const obj = {
-  a: 1,
-  b: { c: 2 },
-  d: [3, 4, { e: 5 }],
-  f: new Date(),
-  g: /test/gi,
-  h: function () {
-    console.log('hello');
-  },
-  i: new Set([1, 2, { j: 3 }]),
-  k: new Map([
-    ['key1', 'value1'],
-    ['key2', { l: 4 }],
-  ]),
-  symbolKey: 'symbolValue',
-};
-
-// 创建循环引用
-obj.b.circular = obj;
-
-const clonedObj = deepCloneDfs(obj);
-
-// 验证
-console.log(clonedObj);
-console.log(obj.b.circular === obj); // true, 原始对象存在循环引用
-console.log(clonedObj.b.circular === clonedObj); // true, 克隆对象也正确处理了循环引用
-console.log(obj.i === clonedObj.i); // false, Set 被深拷贝
-console.log(obj.h === clonedObj.h); // true, 函数被引用拷贝
-
 /**
  * 使用 BFS (广度优先遍历) 实现的健壮版深拷贝函数
  * @param {any} obj - 需要被克隆的对象
  * @returns {any} - 克隆后的新对象
  */
-function deepCloneBfs(obj) {
+export function deepCloneBfs(obj) {
   // 1. 原始类型、null 和函数直接返回
   if (obj === null || typeof obj !== 'object') {
     return obj;
@@ -108,6 +78,20 @@ function deepCloneBfs(obj) {
 
   while (queue.length > 0) {
     const { original, clone } = queue.shift();
+
+    // 处理顶层 Map/Set（它们的元素不在 Reflect.ownKeys 中）
+    if (original instanceof Map) {
+      original.forEach((v, k) => {
+        clone.set(deepCloneBfs(k), deepCloneBfs(v));
+      });
+      continue;
+    }
+    if (original instanceof Set) {
+      original.forEach(v => {
+        clone.add(deepCloneBfs(v));
+      });
+      continue;
+    }
 
     // 优化点: 使用 Reflect.ownKeys 遍历所有自有属性
     for (const key of Reflect.ownKeys(original)) {
@@ -139,20 +123,12 @@ function deepCloneBfs(obj) {
       // 如果是 Map 或 Set，需要特殊处理其内部元素
       if (value instanceof Map) {
         value.forEach((v, k) => {
-          // 将子元素的处理也放入队列
-          queue.push({
-            original: { k, v },
-            clone: { newKey: undefined, newValue: undefined },
-          });
-          // 这里稍微复杂一点，BFS处理Map/Set不如DFS直观
-          // 简化的方法是在这里直接递归，但会破坏纯BFS
-          // 纯BFS需要更复杂的数据结构来追踪Map/Set的键值对
-          // 为了保持BFS的结构，我们这里做一个简化处理，直接递归
-          newClone.set(deepCloneBfs(k, hash), deepCloneBfs(v, hash));
+          // BFS处理Map/Set不如DFS直观，这里做简化处理
+          newClone.set(deepCloneBfs(k), deepCloneBfs(v));
         });
       } else if (value instanceof Set) {
         value.forEach(v => {
-          newClone.add(deepCloneBfs(v, hash));
+          newClone.add(deepCloneBfs(v));
         });
       } else {
         // 普通对象/数组，推入队列等待处理

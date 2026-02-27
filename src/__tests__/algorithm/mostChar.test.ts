@@ -1,4 +1,4 @@
-import { mostChart1, mostStr2 } from '@/algorithm/mostChart';
+import { mostChart1, mostStr2 } from '@/algorithm/mostChar';
 
 // 将所有需要测试的函数实现放入一个数组
 const implementations = [

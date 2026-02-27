@@ -1,4 +1,4 @@
-import { LRU } from './LRU';
+import { LRU } from '@/handwritten/LRU';
 
 describe('LRU cache', () => {
   it('set get', () => {
