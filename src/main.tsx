@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 
 // Dynamically set page title
-document.title = import.meta.env.VITE_APP_TITLE || 'My React Application';
+document.title = import.meta.env.VITE_APP_TITLE || 'Biu~Interview';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
