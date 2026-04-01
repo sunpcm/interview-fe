@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { Card } from '@/components';
 import { algorithms } from '@/data/algorithms';
+import { Link } from 'react-router-dom';
 
 const stats = {
   total: algorithms.length,
